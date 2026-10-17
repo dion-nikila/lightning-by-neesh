@@ -1,0 +1,7 @@
+[
+  {"id":"oct25","date":"2026-10-25","name":"Run & Rave","region":"colombo","city":"Colombo","venue":"Kai Havelock","registration":"https://forms.gle/YMSQNW1HVaTymotc6","poster":"assets/run-and-rave.jpg"},
+  {"id":"nov08","date":"2026-11-08","name":"Run & Rave","region":"colombo","city":"Colombo","venue":"Venue to be announced"},
+  {"id":"nov14","date":"2026-11-14","name":"Run & Rave","region":"south","city":"Weligama","venue":"Kai Weligama"},
+  {"id":"nov21","date":"2026-11-21","name":"Run & Rave","region":"south","city":"Ahangama","venue":"Kai Ahangama"},
+  {"id":"nov22","date":"2026-11-22","name":"Run Club","region":"colombo","city":"Colombo","venue":"Meeting point to be announced"}
+]

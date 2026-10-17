@@ -1,23 +1,33 @@
 # Lightning by Neesh
 
-A responsive website for Lightning’s running community in Sri Lanka.
+A website for Lightning’s running and social community in Sri Lanka.
 
-**Live site:** https://dion-nikila.github.io/lightning-by-neesh/
+**Website:** https://dion-nikila.github.io/lightning-by-neesh/
 
-## Pages and interactions
+## Structure
 
-Home includes the full filterable runs calendar, event details, official registration links, and tentative all-day calendar downloads. The Club and FAQ are separate pages. Layouts support phones, tablets, desktops, keyboard navigation, and reduced motion.
+- Home: community photography and the complete announced runs calendar.
+- The club: Neesh’s story and a photo gallery.
+- FAQ: practical guidance and official registration links.
+- Runs: a standalone calendar URL; primary navigation keeps runs on Home.
 
-## Editing and hosting
+The calendar is rendered into the HTML. JavaScript adds location filters, event details, shareable event links, and tentative all-day calendar downloads. Native dialogs, keyboard controls, reduced motion, and mobile navigation are supported.
 
-This is a buildless static site. Edit the HTML, `style.css`, and `app.js` directly. Update announced events in the `events` array in `app.js`. Internal URLs use the `/lightning-by-neesh/` project base path.
+## Editing
 
-GitHub Pages publishes the `main` branch from the repository root. No dependencies, backend, credentials, or paid services are required.
+- `content/events.json`: announced dates, venues, and official registration URLs.
+- `scripts/build.py`: shared page structure and copy.
+- `style.css`: layout, typography, and responsive behavior.
+- `app.js`: progressive enhancement and interactions.
 
-## Content and assets
+After editing content or templates, run `python3 scripts/build.py`. There are no package dependencies. GitHub Pages publishes `main` from the repository root. The default base path is `/lightning-by-neesh/`.
 
-Brand identity, emblem, original community images, announced dates, and official outbound links come from [Lightning’s Instagram](https://www.instagram.com/lightningbyneesh/). The [official calendar](https://www.instagram.com/p/DeeZkSfP3zt/) provides the October–November 2026 dates. Final event times and details remain with the club’s official announcements.
+To preview a checkout named `lightning-by-neesh`, run `python3 -m http.server 4174 --directory ..` from its root, then open `http://localhost:4174/lightning-by-neesh/`.
 
-The motion runners image is conceptual campaign art generated with built-in ImageGen; it does not depict a documented club event or GPS route. The Neesh cutout was extracted from his original photograph. The route overlay is decorative SVG. Original imagery and the emblem remain the property of their respective owners.
+## Sources and credits
 
-Archivo, Space Grotesk, and Manrope are bundled locally under the licenses in `assets/`.
+The original emblem, community photos, event poster, and announced calendar come from [Lightning’s official Instagram](https://www.instagram.com/lightningbyneesh/) and remain the property of their respective owners. Event dates and venues follow the [official October–November calendar](https://www.instagram.com/p/DeeZkSfP3zt/). Times, routes, pace, and attendance figures are not assumed.
+
+The founder’s quoted words and London connection are supported by [The Morning’s interview with Neesh](https://www.themorning.lk/articles/TgufPVGjrTzKrhkP7uJA), published 26 July 2026. Original community photography is used throughout the current site.
+
+Archivo, Space Grotesk, and Manrope are bundled under their licenses in `assets/`. [Design notes](DESIGN-NOTES.md) document the research behind the current direction.
