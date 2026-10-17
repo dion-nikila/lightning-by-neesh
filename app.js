@@ -119,10 +119,48 @@
     const hasUpcoming = Boolean(firstUpcoming);
     const archiveMode = events.length > 0 && !hasUpcoming;
     const eventRows = $$('.event-row[data-event]');
-    const detailsButtons = $$('[data-event-details]');
+    const activityButtons = $$('[data-activity-slot]');
+    const detailsButtons = $$('[data-event-details]').filter(button =>
+      !button.matches('[data-activity-slot]'));
     const calendarButtons = $$('[data-calendar]');
     const filterButtons = $$('[data-filter]');
     let activeFilter = 'all';
+
+    function renderActivities() {
+      const upcoming = events.filter(event => event.date >= today);
+      let rave = upcoming.find(event => /run\s*&\s*rave/i.test(event.name));
+      let club = upcoming.find(event => /run\s*club/i.test(event.name));
+      if (club && club.id === rave?.id) club = null;
+      if (!rave) rave = upcoming.find(event => event.id !== club?.id);
+      if (!club) club = upcoming.find(event => event.id !== rave?.id);
+      const activityDate = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'UTC', day: 'numeric', month: 'short'
+      });
+
+      activityButtons.forEach(button => {
+        const event = button.dataset.activitySlot === 'club' ? club : rave;
+        button.disabled = false;
+        button.removeAttribute('aria-disabled');
+        if (!event) {
+          delete button.dataset.eventDetails;
+          setText('.activity-kind', 'New dates', button);
+          setText('.activity-date', 'SOON', button);
+          setText('.activity-place', 'On Instagram', button);
+          setText('.activity-status', 'Updates', button);
+          button.setAttribute('aria-label', 'New run dates — updates on Instagram');
+          return;
+        }
+        button.dataset.eventDetails = event.id;
+        setText('.activity-kind', event.name, button);
+        setText('.activity-date', activityDate.format(calendarDate(event.date)).toUpperCase(), button);
+        setText('.activity-place', [event.venue, event.city].filter(Boolean).join(' · '), button);
+        setText('.activity-status', 'Upcoming', button);
+        button.setAttribute('aria-label', event.name + ', ' +
+          dateFormatter.format(calendarDate(event.date)) + ', ' + event.city + '. View run details');
+      });
+    }
+
+    renderActivities();
 
     function renderCalendar() {
       if (!eventData.ready) return;
@@ -359,6 +397,14 @@
       });
     });
 
+    activityButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const id = button.dataset.eventDetails;
+        if (id && eventsById.has(id)) openEvent(id, button);
+        else window.open(instagram, '_blank', 'noopener,noreferrer');
+      });
+    });
+
     function escapeCalendarText(value) {
       return String(value).replace(/\\/g, '\\\\').replace(/\r\n|\r|\n/g, '\\n')
         .replace(/;/g, '\\;').replace(/,/g, '\\,');
@@ -590,7 +636,7 @@
         notify('That run is no longer listed. Check the calendar for new dates.');
         return;
       }
-      const trigger = detailsButtons.find(button =>
+      const trigger = [...detailsButtons, ...activityButtons].find(button =>
         button.dataset.eventDetails === id && isVisible(button));
       openEvent(id, trigger);
     }
@@ -598,7 +644,7 @@
     window.addEventListener('hashchange', openLinkedEvent);
     openLinkedEvent();
 
-    const revealElements = $$('.reveal');
+    const revealElements = $$('.reveal, .route-art');
     const motionPreference = typeof window.matchMedia === 'function' ?
       window.matchMedia('(prefers-reduced-motion: reduce)') : null;
     let revealObserver;

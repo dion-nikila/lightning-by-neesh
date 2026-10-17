@@ -117,35 +117,63 @@ img{display:block;width:100%;height:100%;object-fit:cover}
 .empty-events{padding:40px 0;font-size:15px}
 .empty-events>a{color:var(--blue);text-decoration:underline;text-underline-offset:3px}
 
-/* A founder's real words, without another campaign slogan. */
-.club-preview{display:grid;grid-template-columns:.9fr 1.1fr;gap:8%;align-items:center;padding-top:40px;padding-bottom:50px;border-top:1px solid var(--line);margin-top:20px}
-.club-preview-photo{position:relative;overflow:hidden;height:340px}
-.club-preview-photo>img{object-position:50% 40%;transition:transform .8s}
-.club-preview-photo>span{position:absolute;left:20px;bottom:17px;background:var(--paper);font-size:9px;font-weight:700;letter-spacing:.6px;padding:8px 10px}
+/* Real event data, with a small nod to an activity feed. */
+.activity-section{display:grid;grid-template-columns:1fr 1fr;gap:7%;align-items:center;padding-block:45px 50px;margin-top:20px;border-top:1px solid var(--line)}
+.activity-copy>.eyebrow{color:var(--muted);margin-bottom:22px}
+.activity-copy :is(h1,h2){font:900 clamp(38px,4.4vw,66px)/.98 var(--display);letter-spacing:-.055em}
+.activity-copy h1{font-size:clamp(56px,6.6vw,98px)}
+.activity-copy h1 em{color:var(--blue)}
+.activity-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:32px}
+.activity-card{display:flex;flex-direction:column;align-items:flex-start;text-align:left;min-width:0;border:0;border-radius:3px;padding:18px;color:white;background:var(--blue);transition:transform .25s,box-shadow .25s}
+.activity-club{background:var(--red)}
+.activity-card:hover{transform:translateY(-4px);box-shadow:0 8px 0 #18232115}
+.activity-top{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%}
+.activity-kind{font-size:11px;font-weight:700;line-height:1.5}
+.activity-top>.icon{height:15px;width:15px}
+.activity-date{font:900 italic clamp(30px,3vw,46px)/1.1 var(--display);letter-spacing:-1.9px;margin-top:17px;white-space:nowrap}
+.activity-place{font-size:10px;line-height:1.7;margin-top:12px;min-height:35px;max-width:190px}
+.activity-status{font-size:9px;line-height:1.5;letter-spacing:.6px;text-transform:uppercase;border-top:1px solid #ffffff50;width:100%;margin-top:15px;padding-top:10px}
+.route-art{position:relative;height:410px;isolation:isolate;background:#153953;overflow:hidden;border-radius:3px}
+.route-art>img{object-position:50% 46%;height:100%;width:100%}
+.route-trace{position:absolute;inset:0;height:100%;width:100%;color:#ff7058;filter:drop-shadow(0 1px 5px #0b1e4a40)}
+.route-path,.route-shadow{fill:none;stroke:currentColor;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.route-shadow{stroke:#f6f3ec;stroke-width:7;opacity:.2}
+.route-path{stroke-dasharray:1250;stroke-dashoffset:0}
+.route-trace circle,.route-finish{fill:currentColor}
+.route-trace text{fill:currentColor;font:700 11px Manrope,Arial,sans-serif;letter-spacing:1px}
+.route-art figcaption{position:absolute;left:23px;bottom:20px;font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--paper)}
+.page-runs .activity-section{margin-top:0;padding-block:48px 25px;border-top:0}
+.page-runs .calendar-section{padding-top:40px;padding-bottom:60px}
+.calendar-page-link{font-size:12px;color:var(--blue);gap:20px;flex-shrink:0}
+
+/* Neesh's cape and a cobalt disc bring the original club treatment back. */
+.founder-art{position:relative;isolation:isolate;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;min-width:0;height:460px}
+.founder-disc{position:absolute;z-index:-1;bottom:35px;left:50%;width:350px;height:350px;border-radius:50%;background:var(--blue);transform:translateX(-50%)}
+.founder-art>img{height:100%;width:auto;max-width:100%;object-fit:contain;object-position:center bottom}
+.club-preview{display:grid;grid-template-columns:.9fr 1.1fr;gap:8%;align-items:center;padding-top:10px;padding-bottom:35px;border-top:1px solid var(--line)}
+.club-preview .founder-art{height:360px}
+.club-preview .founder-disc{height:270px;width:270px;bottom:20px}
 .club-preview-copy .eyebrow{color:var(--muted);margin-bottom:25px}
 .club-preview blockquote{font:400 clamp(26px,3.15vw,44px)/1.2 var(--number);letter-spacing:-1.8px;color:var(--blue)}
 .quote-credit{font-size:11px;font-weight:700;color:var(--muted);margin-top:17px}
-.club-intro{font-size:14px;max-width:310px;margin-top:28px;line-height:1.8}
 .club-preview-copy .text-link{margin-top:20px;min-width:205px}
-
-/* Club: an editorial portrait, then the people. */
-.club-intro-section{padding-top:55px;padding-bottom:46px}
-.club-intro-section>.eyebrow{color:var(--muted);margin-bottom:28px}
-.club-intro-section>div{display:flex;justify-content:space-between;gap:35px;align-items:flex-end}
-.club-intro-section h1{font:900 clamp(48px,7.3vw,110px)/.95 var(--display);letter-spacing:-.06em}
-.club-intro-section>div>p{font-size:15px;line-height:1.8;max-width:260px;padding-bottom:5px}
-.club-feature{display:grid;grid-template-columns:.85fr 1fr;gap:10%;padding-bottom:77px;align-items:center}
-.club-feature>figure{position:relative;height:620px;overflow:hidden}
-.club-feature>figure>img{object-position:50% 42%}
-.club-feature figcaption{position:absolute;bottom:15px;left:18px;font-size:9px;font-weight:700;background:var(--paper);padding:8px 10px;letter-spacing:.5px}
-.club-feature>div>.eyebrow{font-size:10px;color:var(--muted);margin-bottom:25px}
-.club-feature h2{font:400 clamp(27px,3.3vw,46px)/1.13 var(--number);letter-spacing:-1.8px}
-.club-feature>div>p:not(.eyebrow,.quote-credit){font-size:14px;line-height:1.9;margin-top:29px;max-width:430px}
-.club-feature blockquote{font-size:20px;line-height:1.5;color:var(--blue);margin-top:30px;max-width:360px}
-.club-feature .quote-credit{font-size:10px;font-weight:400;line-height:1.8;margin-top:10px;max-width:340px}
+.club-cover{display:grid;grid-template-columns:1.2fr 1fr;align-items:center;gap:20px;padding-block:25px 0}
+.club-cover-copy>.eyebrow{color:var(--muted);margin-bottom:31px}
+.club-cover h1{font:900 clamp(52px,6.8vw,104px)/.95 var(--display);letter-spacing:-.06em}
+.club-cover h1 em{color:var(--blue)}
+.club-cover-copy>p:not(.eyebrow){font-size:14px;line-height:1.8;margin-top:28px}
+.club-cover-copy>.button{margin-top:25px;min-width:180px}
+.club-cover .founder-art{height:560px}
+.club-cover .founder-disc{width:380px;height:380px;bottom:35px}
+.club-story{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:6%;padding-block:45px 60px;border-top:1px solid var(--line);align-items:start}
+.club-story .eyebrow{color:var(--muted);font-size:10px;margin-bottom:18px}
+.club-story h2{font:400 clamp(27px,3vw,40px)/1.15 var(--number);letter-spacing:-1.6px}
+.club-story>p{font-size:13px;line-height:1.9}
+.founder-quote{border-left:2px solid var(--red);padding-left:22px}
+.founder-quote blockquote{font:400 23px/1.3 var(--number);letter-spacing:-.8px;color:var(--blue)}
+.founder-quote .quote-credit{font-size:10px;font-weight:400;line-height:1.9;margin-top:15px}
 .quote-credit a{text-decoration:underline;text-underline-offset:3px}
 .quote-credit .icon{height:12px;width:12px}
-.club-feature .button{margin-top:30px;min-width:175px}
 .crew-section{padding-top:55px;padding-bottom:65px;background:#edece3;border-block:1px solid var(--line)}
 .crew-section .section-heading{margin-bottom:30px}
 .crew-section .section-heading h2{font-size:clamp(35px,4vw,58px)}
@@ -230,6 +258,14 @@ dialog::backdrop{background:#0b1837b3;backdrop-filter:blur(4px)}
 
 @media(min-width:1681px){.site-shell{border-inline:1px solid var(--line)}}
 @media(max-width:1100px){
+ .activity-section{gap:5%}
+ .activity-card{padding:15px}
+ .activity-date{font-size:35px}
+ .route-art{height:370px}
+ .club-cover .founder-art{height:500px}
+ .club-cover .founder-disc{width:310px;height:310px}
+ .club-story{gap:5%}
+
  .header{gap:20px;padding-block:16px;min-height:84px}
  .desktop-nav{gap:25px;margin-right:15px}
  .brand>span{font-size:25px}
@@ -245,13 +281,37 @@ dialog::backdrop{background:#0b1837b3;backdrop-filter:blur(4px)}
  .event-actions{gap:10px}
  .event-register,.event-details{padding-inline:13px;gap:16px}
  .club-preview{gap:7%;padding-block:45px 60px}
- .club-preview-photo{height:340px}
- .club-feature{gap:7%;padding-bottom:60px}
- .club-feature>figure{height:550px}
  .faq-section{gap:7%}
  .footer-top>div{gap:20px}
 }
 @media(max-width:800px){
+ .activity-section{gap:25px;padding-block:33px 40px}
+ .activity-copy>.eyebrow{font-size:9px;letter-spacing:.7px;margin-bottom:18px}
+ .activity-copy :is(h1,h2){font-size:37px}
+ .activity-copy h1{font-size:53px}
+ .activity-cards{gap:8px;margin-top:25px}
+ .activity-card{padding:13px 11px}
+ .activity-kind{font-size:9px}
+ .activity-top>.icon{width:12px;height:12px}
+ .activity-date{font-size:29px;letter-spacing:-1.3px;margin-top:15px}
+ .activity-place{font-size:9px;min-height:46px}
+ .activity-status{font-size:8px;padding-top:8px;margin-top:12px}
+ .route-art{height:340px}
+ .calendar-page-link{font-size:10px;gap:12px}
+ .club-cover{grid-template-columns:1.1fr 1fr;padding-block:30px 0;gap:15px}
+ .club-cover h1{font-size:7.3vw}
+ .club-cover-copy>.eyebrow{font-size:9px;margin-bottom:25px}
+ .club-cover-copy>p:not(.eyebrow){font-size:13px;margin-top:23px}
+ .club-cover-copy>.button{font-size:12px;min-width:165px;margin-top:22px}
+ .club-cover .founder-art{height:420px}
+ .club-cover .founder-disc{width:260px;height:260px;bottom:25px}
+ .club-preview .founder-art{height:330px}
+ .club-preview .founder-disc{width:225px;height:225px}
+ .club-story{grid-template-columns:1fr 1.1fr;gap:28px;padding-block:32px 40px}
+ .club-story>p{font-size:13px}
+ .founder-quote{grid-column:2}
+ .founder-quote blockquote{font-size:23px}
+
  :root{--gutter:24px}
  html{scroll-padding-top:88px}
  .header{height:76px;min-height:76px;padding:13px 24px;gap:15px}
@@ -311,27 +371,10 @@ dialog::backdrop{background:#0b1837b3;backdrop-filter:blur(4px)}
  .calendar-footnote>p>.icon{margin-top:2px;flex-shrink:0}
  .calendar-footnote>a{font-size:11px;min-height:35px}
  .club-preview{grid-template-columns:.9fr 1.1fr;gap:25px;padding-top:34px;padding-bottom:45px;margin-top:15px}
- .club-preview-photo{height:360px}
- .club-preview-photo>span{font-size:7px;left:10px;bottom:10px;padding:7px;letter-spacing:.3px}
  .club-preview-copy .eyebrow{font-size:9px;margin-bottom:17px}
  .club-preview blockquote{font-size:29px;letter-spacing:-1.2px;line-height:1.2}
  .quote-credit{font-size:10px;margin-top:12px}
- .club-intro{font-size:12px;margin-top:19px}
  .club-preview-copy .text-link{font-size:12px;min-width:0;width:100%;gap:15px;margin-top:15px}
- .club-intro-section{padding-top:35px;padding-bottom:30px}
- .club-intro-section>.eyebrow{font-size:10px;letter-spacing:.9px;margin-bottom:22px}
- .club-intro-section>div{display:block}
- .club-intro-section h1{font-size:clamp(45px,8.8vw,72px)}
- .club-intro-section>div>p{font-size:14px;margin-top:24px;line-height:1.8}
- .club-feature{gap:35px;grid-template-columns:1fr 1fr;align-items:start;padding-bottom:50px}
- .club-feature>figure{height:480px}
- .club-feature figcaption{font-size:7px;left:11px;bottom:11px;padding:7px;letter-spacing:.3px}
- .club-feature>div>.eyebrow{font-size:9px;letter-spacing:.6px;margin-bottom:18px}
- .club-feature h2{font-size:29px;letter-spacing:-1.3px}
- .club-feature>div>p:not(.eyebrow,.quote-credit){font-size:13px;margin-top:23px;line-height:1.85}
- .club-feature blockquote{font-size:19px;line-height:1.5;margin-top:23px}
- .club-feature .quote-credit{font-size:10px}
- .club-feature .button{font-size:12px;min-width:165px;margin-top:25px}
  .crew-section{padding-block:37px 40px}
  .crew-section .section-heading{align-items:flex-start;flex-direction:column;gap:14px}
  .crew-section .section-heading h2{font-size:38px}
@@ -379,6 +422,42 @@ dialog::backdrop{background:#0b1837b3;backdrop-filter:blur(4px)}
  .toast{font-size:11px;padding:13px 16px;bottom:18px}
 }
 @media(max-width:560px){
+ .activity-section{grid-template-columns:1fr;gap:24px;padding-block:32px 35px;margin-top:5px}
+ .activity-copy :is(h1,h2){font-size:36px}
+ .activity-copy h1{font-size:56px}
+ .activity-copy h1>br{display:none}
+ .activity-cards{gap:11px;margin-top:25px}
+ .activity-card{padding:15px}
+ .activity-kind{font-size:10px}
+ .activity-top>.icon{width:15px;height:15px}
+ .activity-date{font-size:35px;margin-top:15px;letter-spacing:-1.7px}
+ .activity-place{font-size:10px;min-height:36px}
+ .activity-status{font-size:8px;margin-top:13px;padding-top:9px}
+ .route-art{height:275px}
+ .route-art>img{object-position:50% 44%}
+ .route-art figcaption{left:17px;bottom:15px;font-size:8px}
+ .route-trace{width:100%;height:120%;top:-8%}
+ .page-runs .activity-section{padding-block:32px 20px}
+ .page-runs .calendar-section{padding-top:25px;padding-bottom:40px}
+ .calendar-section .section-heading{align-items:flex-start;flex-direction:column;gap:12px;margin-bottom:20px}
+ .calendar-page-link{font-size:11px;min-height:37px;padding-block:7px;gap:20px}
+ .club-preview .founder-art{height:260px;overflow:hidden}
+ .club-preview .founder-disc{width:145px;height:145px;bottom:13px}
+ .club-preview .founder-art>img{max-width:100%;width:100%;height:100%}
+ .club-cover{display:flex;flex-direction:column;align-items:stretch;padding-top:32px;gap:0}
+ .club-cover h1{font-size:13vw;line-height:.96}
+ .club-cover-copy>.eyebrow{margin-bottom:24px}
+ .club-cover-copy>p:not(.eyebrow){font-size:14px;margin-top:23px}
+ .club-cover-copy>.button{margin-top:22px;font-size:12px;min-height:49px}
+ .club-cover .founder-art{height:365px;margin-top:-32px;align-self:flex-end;width:83%;pointer-events:none}
+ .club-cover .founder-disc{width:250px;height:250px;bottom:23px}
+ .club-story{display:block;padding-block:32px 37px}
+ .club-story h2{font-size:34px;line-height:1.12}
+ .club-story>p{font-size:14px;margin-top:22px;line-height:1.85}
+ .founder-quote{margin-top:28px;padding-left:19px;max-width:310px}
+ .founder-quote blockquote{font-size:24px}
+ .founder-quote .quote-credit{font-size:10px}
+
  :root{--gutter:22px}
  .header{padding-inline:22px}
  .home-hero{margin:12px 12px 0;height:560px}
@@ -413,27 +492,12 @@ dialog::backdrop{background:#0b1837b3;backdrop-filter:blur(4px)}
  .event-register .icon,.event-details .icon{width:15px;height:15px}
  .calendar-footnote{font-size:10px}
  .calendar-footnote>p{max-width:310px}
- .club-preview{display:grid;grid-template-columns:.7fr 1.3fr;gap:21px;padding-top:30px;padding-bottom:37px;align-items:center}
- .club-preview-photo{height:260px;max-width:100%}
- .club-preview-photo>img{object-position:50% 37%}
- .club-preview-photo>span{display:none}
+ .club-preview{display:grid;grid-template-columns:1fr 1.05fr;gap:18px;padding-top:30px;padding-bottom:37px;align-items:center}
  .club-preview-copy{padding-top:0;min-width:0}
  .club-preview-copy .eyebrow{font-size:9px;margin-bottom:18px}
  .club-preview blockquote{font-size:26px;letter-spacing:-1.1px;line-height:1.2}
  .quote-credit{font-size:11px;margin-top:16px}
- .club-intro{font-size:14px;max-width:300px;margin-top:22px}
  .club-preview-copy .text-link{font-size:11px;width:100%;min-width:0;gap:8px;margin-top:16px}
- .club-intro-section h1{font-size:11.9vw;letter-spacing:-.055em;line-height:.98}
- .club-intro-section>div>p{font-size:14px;line-height:1.8;margin-top:23px}
- .club-feature{display:flex;flex-direction:column;gap:32px;padding-bottom:42px}
- .club-feature>figure{width:100%;height:440px}
- .club-feature figcaption{font-size:8px;bottom:14px;left:14px;padding:8px}
- .club-feature>div>.eyebrow{font-size:9px;letter-spacing:.6px;margin-bottom:21px}
- .club-feature h2{font-size:35px;letter-spacing:-1.6px;line-height:1.13}
- .club-feature>div>p:not(.eyebrow,.quote-credit){font-size:14px;line-height:1.85;margin-top:24px}
- .club-feature blockquote{font-size:22px;margin-top:26px;max-width:330px}
- .club-feature .quote-credit{font-size:11px;margin-top:13px;line-height:1.9}
- .club-feature .button{font-size:13px;min-height:51px;margin-top:27px}
  .crew-section .section-heading h2{font-size:36px;letter-spacing:-1.8px}
  .crew-gallery{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--blue) #d6d8cd;padding-bottom:14px;margin-right:calc(-1 * var(--gutter));padding-right:var(--gutter)}
  .gallery-item{flex:0 0 83%;scroll-snap-align:start}
@@ -459,6 +523,16 @@ dialog::backdrop{background:#0b1837b3;backdrop-filter:blur(4px)}
  .footer-bottom>a{font-size:11px}
 }
 @media(max-width:360px){
+ .activity-date{font-size:31px}
+ .activity-card{padding:13px}
+ .activity-place{font-size:9px;min-height:46px}
+ .activity-copy h1{font-size:50px}
+ .route-art{height:245px}
+ .club-preview .founder-disc{width:130px;height:130px}
+ .club-preview .founder-art{height:240px}
+ .club-cover .founder-art{height:325px;margin-top:-18px}
+ .club-cover .founder-disc{width:225px;height:225px}
+
  :root{--gutter:18px}
  .header{padding-inline:18px}
  .brand>img{width:34px;height:34px}
@@ -480,9 +554,6 @@ dialog::backdrop{background:#0b1837b3;backdrop-filter:blur(4px)}
  .event-main>p{font-size:11px}
  .event-main>p>span{font-size:10px}
  .club-preview blockquote{font-size:23px;letter-spacing:-.9px}
- .club-preview-photo{height:245px}
- .club-feature>figure{height:410px}
- .club-feature h2{font-size:32px}
  .faq-intro h1{font-size:49px}
  .titan-section h2{font-size:29px}
  .titan-section .text-link{min-width:235px;font-size:11px}
@@ -492,6 +563,5 @@ dialog::backdrop{background:#0b1837b3;backdrop-filter:blur(4px)}
  .event-dialog h2{font-size:32px}
  .dialog-tools{gap:21px}
 }
-@media(hover:hover){.home-hero:hover .hero-shot img{transform:scale(1.025)}.club-preview-photo:hover img{transform:scale(1.025)}}
-@media(prefers-reduced-motion:no-preference){.hero-message{animation:hero-arrive .7s ease both}@keyframes hero-arrive{from{transform:translateY(8px)}to{transform:translateY(0)}}}
+@media(prefers-reduced-motion:no-preference){.route-art:not(.is-visible) .route-path{stroke-dashoffset:1250}.route-art.is-visible .route-path{animation:draw-route 2.5s cubic-bezier(.3,.1,.3,1) both}@keyframes draw-route{from{stroke-dashoffset:1250}to{stroke-dashoffset:0}}.hero-message{animation:hero-arrive .7s ease both}@keyframes hero-arrive{from{transform:translateY(8px)}to{transform:translateY(0)}}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}

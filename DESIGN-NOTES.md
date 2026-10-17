@@ -16,9 +16,10 @@ Researched 17 October 2026. The sources below informed the design; their layouts
 
 These are design interpretations of the research, rather than claims of objective superiority.
 
-- Put actual Lightning people first through a photographic wall. Remove generated runner artwork, the generated cutout, and decorative GPS traces.
+- Put actual Lightning people first through a photographic wall. On request, restore the earlier Neesh cutout on a cobalt disc and a compact activity panel. The running illustration is conceptual, and its decorative route is not a GPS track. Activity cards show real announced events with working details.
 - Keep the original cobalt, red, and cream palette; use a consistent typographic voice and readable utility labels.
 - Keep the full five-event calendar in static HTML on Home. Filters help scanning, while explicit details and registration actions make the next step clear. Calendar and share links serve a practical purpose.
+- Make Runs a dedicated page in the main navigation, alongside the complete Home calendar.
 - Use shorter copy and a sourced Neesh quote on Club. Let photographs and confirmed events convey the energy.
 - Recompose image crops, spacing, headings, and event rows for mobile. Keep motion restrained and preserve usable reduced-motion behavior.
 

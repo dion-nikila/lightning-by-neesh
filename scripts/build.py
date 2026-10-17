@@ -1,7 +1,8 @@
 """Build Lightning's static pages. Run with Python 3; no dependencies required."""
 import argparse
 import json
-from datetime import date
+from datetime import date, datetime
+from zoneinfo import ZoneInfo
 from html import escape
 from pathlib import Path
 
@@ -50,7 +51,7 @@ DEFS = '''<svg class="svg-defs" aria-hidden="true"><defs>
 
 
 def header(page):
-    items = [('runs', 'Runs', url('#runs')), ('club', 'The club', url('club/')), ('faq', 'FAQ', url('faq/'))]
+    items = [('runs', 'Runs', url('runs/')), ('club', 'The club', url('club/')), ('faq', 'FAQ', url('faq/'))]
     links = ''.join(f'<a href="{target}"{" aria-current=page" if page == key else ""}>{text}</a>' for key, text, target in items)
     links += f'<a href="{SHOP}"{EXT}>Shop {icon("diagonal")}</a>'
     return f'''<header class="header"><a class="brand" href="{url()}" aria-label="Lightning by Neesh home">{brand()}</a>
@@ -66,7 +67,7 @@ def footer():
 
 
 def event_rows(page):
-    heading = 'h3' if page == 'home' else 'h2'
+    heading = 'h3'
     rows = []
     for index, e in enumerate(EVENTS):
         d = date.fromisoformat(e['date'])
@@ -79,11 +80,16 @@ def event_rows(page):
 
 
 def calendar(page='home'):
-    heading = 'h2' if page == 'home' else 'h1'
+    heading = 'h2'
+    dates = sorted(date.fromisoformat(e['date']) for e in EVENTS)
+    period = 'NEW DATES SOON'
+    if dates:
+        first, last = dates[0], dates[-1]
+        period = first.strftime('%b %Y') if first.year == last.year and first.month == last.month else (first.strftime('%b') + '—' + last.strftime('%b %Y') if first.year == last.year else first.strftime('%b %Y') + '—' + last.strftime('%b %Y'))
     return f'''<section class="calendar-section section-wrap" id="runs" aria-labelledby="calendar-title">
-<div class="section-heading"><div><p class="eyebrow calendar-period">THE CALENDAR / OCT—NOV 2026</p><{heading} id="calendar-title">Upcoming runs<span class="red-dot">.</span></{heading}></div></div>
+<div class="section-heading"><div><p class="eyebrow calendar-period">THE CALENDAR / {period.upper()}</p><{heading} id="calendar-title">Upcoming runs<span class="red-dot">.</span></{heading}></div>{link("All run details", url("runs/"), "text-link calendar-page-link") if page == "home" else ""}</div>
 <div class="calendar-toolbar"><div class="filters" data-filters role="group" aria-label="Filter runs by location" hidden><button data-filter="all" aria-pressed="true">All runs</button><button data-filter="colombo" aria-pressed="false">Colombo</button><button data-filter="south" aria-pressed="false">Down south</button></div><a href="{CALENDAR}" class="original-calendar"{EXT}>Original calendar {icon('diagonal')}</a></div>
-<p class="events-status sr-only" aria-live="polite">5 events shown.</p><div class="event-list">{event_rows(page)}</div>
+<p class="events-status sr-only" aria-live="polite">{len(EVENTS)} events shown.</p><div class="event-list">{event_rows(page)}</div>
 <p class="empty-events" hidden>No upcoming runs here yet. <a href="{IG}"{EXT}>Get updates on Instagram</a>.</p>
 <div class="calendar-footnote"><p>{icon('calendar')} Times and final details are shared on Instagram.</p><a href="{IG}"{EXT}>Message the crew {icon('diagonal')}</a></div></section>'''
 
@@ -95,10 +101,36 @@ hero = f'''<section class="home-hero" aria-labelledby="hero-title"><div class="h
 <div class="hero-content"><p class="hero-label">{icon('bolt')} RUNNING & COMMUNITY / SRI LANKA</p><div class="hero-message"><h1 id="hero-title">Real people.<br>Real energy.</h1><div class="hero-bottom"><p>Runs, raves and good company<br>in Sri Lanka.</p>{link('Find your next run', '#runs', 'button button-light')}</div></div></div>
 <span class="hero-index" aria-hidden="true">LIGHTNING / THE CREW</span></section>'''
 
-home_club = f'''<section class="club-preview section-wrap"><div class="club-preview-photo">{image('neesh.jpg', 'Neesh wearing his red Lightning cape')}<span>THE MAN BEHIND THE CAPE</span></div><div class="club-preview-copy"><p class="eyebrow">MEET LIGHTNING</p><blockquote>“I want it to be<br>everyone’s space.”</blockquote><p class="quote-credit">Neesh / Founder</p>{link('The story so far', url('club/'), 'text-link')}</div></section>'''
+def founder_art(lazy=True):
+    return f'''<div class="founder-art"><span class="founder-disc" aria-hidden="true"></span><img src="{url('assets/neesh-cutout.webp')}" alt="Neesh in his red Lightning cape" width="1086" height="1448" {"loading=lazy" if lazy else "fetchpriority=high"}></div>'''
 
-club = f'''<section class="club-intro-section section-wrap"><p class="eyebrow">LIGHTNING / BY NEESH</p><div><h1>Put yourself<br>out there<span class="red-dot">.</span></h1><p>A run club. A social community.<br>Started by Neesh in Sri Lanka.</p></div></section>
-<section class="club-feature section-wrap"><figure>{image('neesh.jpg', 'Neesh in his red Lightning cape', lazy=False)}<figcaption>NEESH / THE PERSON BEHIND LIGHTNING</figcaption></figure><div><p class="eyebrow">HOW IT STARTED</p><h2>From London<br>to Sri Lanka.</h2><p>Inspired by the running communities he found in London, Neesh brought the idea home to Sri Lanka. Lightning brings people together through runs, raves and everything in between.</p><blockquote>“I want it to be everyone’s space.”</blockquote><p class="quote-credit">— Neesh, <a href="https://www.themorning.lk/articles/TgufPVGjrTzKrhkP7uJA"{EXT}>in conversation with The Morning {icon('diagonal')}</a></p>{link('Find a run', url('#runs'), 'button button-blue')}</div></section>
+
+def activity_section(page='home'):
+    heading = 'h1' if page == 'runs' else 'h2'
+    title = 'Find your<br> <em>next run.</em>' if page == 'runs' else 'Run with us<span class="red-dot">.</span>'
+    upcoming = sorted((e for e in EVENTS if e['date'] >= datetime.now(ZoneInfo('Asia/Colombo')).date().isoformat()), key=lambda e: e['date'])
+    rave = next((e for e in upcoming if 'run & rave' in e['name'].lower()), None)
+    club_event = next((e for e in upcoming if 'run club' in e['name'].lower() and e != rave), None)
+    rave = rave or next((e for e in upcoming if e != club_event), None)
+    club_event = club_event or next((e for e in upcoming if e != rave), None)
+    selected = [rave, club_event]
+    cards = []
+    for slot, event in zip(['rave', 'club'], selected):
+        if event is None:
+            cards.append(f'<a class="activity-card activity-{slot}" href="{IG}"{EXT}><span class="activity-kind">New dates</span><span class="activity-date">SOON</span><span class="activity-place">On Instagram</span><span class="activity-status">Updates</span></a>')
+            continue
+        d = date.fromisoformat(event['date'])
+        cards.append(f'''<button class="activity-card activity-{slot}" data-activity-slot="{slot}" data-event-details="{event['id']}" aria-label="Details for {escape(event['name'], quote=True)}, {d.day} {d.strftime('%B %Y')}, {escape(event['city'], quote=True)}">
+<span class="activity-top"><span class="activity-kind">{escape(event['name'], quote=True)}</span>{icon('diagonal')}</span><span class="activity-date">{d.day} {d.strftime('%b').upper()}</span><span class="activity-place">{escape(event['venue'], quote=True)} · {escape(event['city'], quote=True)}</span><span class="activity-status">Upcoming</span></button>''')
+    route = 'M170 525C150 498 222 489 214 458S108 451 118 412 204 393 202 358 98 361 115 304 241 340 271 281 223 248 270 213 354 218 352 157 304 138 333 100'
+    return f'''<section class="activity-section section-wrap" aria-labelledby="activity-title"><div class="activity-copy"><p class="eyebrow">RUN & RAVE / RUN CLUB</p><{heading} id="activity-title">{title}</{heading}><div class="activity-cards">{''.join(cards)}</div></div>
+<figure class="route-art"><img src="{url('assets/running-motion.webp')}" alt="Conceptual artwork of two runners on a blue road" width="1122" height="1402" loading="lazy"><svg class="route-trace" viewBox="0 0 500 600" aria-hidden="true"><path class="route-shadow" d="{route}"/><path class="route-path" d="{route}"/><circle cx="170" cy="525" r="7"/><path class="route-finish" d="M325 89h9v9h-9zM343 89h9v9h-9zM334 98h9v9h-9zM325 107h9v9h-9zM343 107h9v9h-9z"/><text x="190" y="531">START</text></svg><figcaption>LIGHTNING / SRI LANKA</figcaption></figure></section>'''
+
+
+home_club = f'''<section class="club-preview section-wrap">{founder_art()}<div class="club-preview-copy"><p class="eyebrow">THE CLUB / BY NEESH</p><blockquote>“I want it to be<br>everyone’s space.”</blockquote><p class="quote-credit">Neesh / Founder</p>{link('Meet the club', url('club/'), 'text-link')}</div></section>'''
+
+club = f'''<section class="club-cover section-wrap"><div class="club-cover-copy"><p class="eyebrow">THE CLUB / BY NEESH</p><h1>Put yourself<br><em>out there.</em></h1><p>A run club. A social community.<br>Started by Neesh in Sri Lanka.</p>{link('Run with us',url('runs/'),'button button-blue')}</div>{founder_art(False)}</section>
+<section class="club-story section-wrap"><div><p class="eyebrow">HOW IT STARTED</p><h2>From London<br>to Sri Lanka.</h2></div><p>Inspired by the running communities he found in London, Neesh brought the idea home to Sri Lanka. Lightning brings people together through runs, raves and everything in between.</p><div class="founder-quote"><blockquote>“I want it to be everyone’s space.”</blockquote><p class="quote-credit">— Neesh, <a href="https://www.themorning.lk/articles/TgufPVGjrTzKrhkP7uJA"{EXT}>in conversation with The Morning {icon('diagonal')}</a></p></div></section>
 <section class="crew-section section-wrap" id="photos"><div class="section-heading"><div><p class="eyebrow">THE PEOPLE MAKE IT</p><h2>The crew<span class="red-dot">.</span></h2></div>{link('More on Instagram', IG, 'text-link', True)}</div><div class="crew-gallery">'''+''.join(f'''<button class="gallery-item" data-photo="{url('assets/' + file)}" data-caption="{caption}" aria-label="Enlarge photo: {alt}">{image(file, alt)}<span>{caption}{icon('diagonal')}</span></button>''' for file, alt, caption in [('the-community.jpg','the Lightning crew after a run','After the run'),('neesh-running.jpg','Neesh and friends at a gathering','With the crew'),('after-dark.jpg','the Lightning crew celebrating','When the run is over')])+f'''</div></section>'''
 
 questions = [
@@ -122,15 +154,15 @@ def page(name, title, description, content):
     path = '' if name == 'home' else name + '/'
     event_data = json.dumps([{**e, **({'poster': url(e['poster'])} if e.get('poster') else {})} for e in EVENTS]).replace('<', '\\u003c')
     html = f'''<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f6f3ec"><meta name="description" content="{escape(description, quote=True)}"><meta property="og:title" content="{escape(title, quote=True)}"><meta property="og:description" content="{escape(description, quote=True)}"><meta property="og:type" content="website"><meta property="og:url" content="{ORIGIN}{url(path)}"><meta property="og:image" content="{ORIGIN}{url('assets/the-community.jpg')}"><link rel="canonical" href="{ORIGIN}{url(path)}"><link rel="icon" href="{url('assets/original-logo.jpg')}"><link rel="preload" href="{url('assets/archivo-900.ttf')}" as="font" type="font/ttf" crossorigin><link rel="stylesheet" href="{url('style.css')}?v=20261017"><script id="event-data" type="application/json">{event_data}</script><script src="{url('app.js')}?v=20261017" defer></script><title>{title}</title></head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f6f3ec"><meta name="description" content="{escape(description, quote=True)}"><meta property="og:title" content="{escape(title, quote=True)}"><meta property="og:description" content="{escape(description, quote=True)}"><meta property="og:type" content="website"><meta property="og:url" content="{ORIGIN}{url(path)}"><meta property="og:image" content="{ORIGIN}{url('assets/the-community.jpg')}"><link rel="canonical" href="{ORIGIN}{url(path)}"><link rel="icon" href="{url('assets/original-logo.jpg')}"><link rel="preload" href="{url('assets/archivo-900.ttf')}" as="font" type="font/ttf" crossorigin><link rel="stylesheet" href="{url('style.css')}?v=20261017b"><script id="event-data" type="application/json">{event_data}</script><script src="{url('app.js')}?v=20261017b" defer></script><title>{title}</title></head>
 <body class="page-{name}">{DEFS}<a class="skip" href="#main">Skip to content</a><div class="site-shell">{header(name)}<main id="main">{content}</main>{footer()}</div>{dialogs()}</body></html>'''
     target = ROOT / path / 'index.html'
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(html)
 
 
-page('home', 'Lightning by Neesh — Runs, raves & good company', 'Runs, raves and good company in Sri Lanka. Find your next run with Lightning by Neesh.', hero + calendar() + home_club)
-page('runs', 'The runs — Lightning by Neesh', 'Announced Lightning runs in Colombo, Weligama and Ahangama.', calendar('runs'))
+page('home', 'Lightning by Neesh — Runs, raves & good company', 'Runs, raves and good company in Sri Lanka. Find your next run with Lightning by Neesh.', hero + calendar() + activity_section() + home_club)
+page('runs', 'The runs — Lightning by Neesh', 'Announced Lightning runs in Colombo, Weligama and Ahangama.', activity_section('runs') + calendar('runs'))
 page('club', 'The club — Lightning by Neesh', 'Meet Neesh and the people who make Lightning.', club)
 page('faq', 'Before you join — Lightning by Neesh', 'Practical answers for your first Lightning run.', faq)
 print('Built 4 Lightning pages.')
